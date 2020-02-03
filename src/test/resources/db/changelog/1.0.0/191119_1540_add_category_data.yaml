@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: 191119_1540_add_category_data
+      author: alexey.timofeev.ru@gmail.com
+      changes:
+        - sql:
+            "ALTER SEQUENCE category_id_seq RESTART WITH 100;"
+        - insert:
+            tableName: category
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: name
+                  value: root
+              - column:
+                  name: parent_id
+                  value: null
+        - insert:
+            tableName: category
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: name
+                  value: category_level_1_1
+              - column:
+                  name: parent_id
+                  value: 1
+        - insert:
+            tableName: category
+            columns:
+              - column:
+                  name: id
+                  value: 3
+              - column:
+                  name: name
+                  value: category_level_2_1
+              - column:
+                  name: parent_id
+                  value: 2

@@ -1,0 +1,54 @@
+application:
+  heartbeat:
+    initial-delay: 1000
+    fixed-rate: 5000
+#    enabled: false
+
+spring:
+  application:
+    name: product-service
+  jpa:
+    database: POSTGRESQL
+  properties:
+    hibernate:
+      temp:
+        use_jdbc_metadata_defaults: false
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://postgres-product-db:5432/postgres
+    username: postgres
+    password: postgres
+#  liquibase:
+#    parameters:
+#      ignoringClasspathPrefix: true
+#  kafka:
+#    bootstrap-servers: localhost:9094
+#    consumer:
+#      group-id: ${spring.application.name}-consumers
+
+service:
+  topic: test
+
+fixer:
+  host: data.fixer.io
+  protocol: http://
+  apiKey: 702932c7e508f26fa0928c048b4ad157
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    git:
+      mode: full
+  endpoint:
+    health:
+      show-details: always
+logging:
+  hostsAndPorts: ${LOGSTASH_HOSTS_AND_PORTS:localhost:5000}
+  service: @pom.artifactId@
+  index: log-${EXEC_ENVIRONMENT:dev}-${logging.service}
+  version: @pom.version@
+

@@ -1,0 +1,38 @@
+version: '3.3'
+services:
+  postgres-product-db:
+    image: postgres:11.3
+    ports:
+      - 6000:5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+#  postgres-product-db-test:
+#    image: postgres:11.3
+#    ports:
+#      - 6001:5432
+#    environment:
+#      POSTGRES_PASSWORD: postgres
+#  product-service:
+#    image: demo/product-service:latest
+#    ports:
+#      - 9000:8080
+  elasticsearch:
+    image: elasticsearch:${ELK_VERSION}
+    ports:
+      - 9200:9200
+      - 9300:9300
+  logstash:
+    image: logstash:${ELK_VERSION}
+    entrypoint: >-
+      logstash -e "input { tcp { port => 5000 codec => \"json\" } }
+      output { elasticsearch { hosts => [\"elasticsearch\"] index => \"%{app.index}\"  document_type => "mytype"} }"
+    ports:
+      - 5000:5000
+    depends_on:
+      - elasticsearch
+  kibana:
+    image: kibana:${ELK_VERSION}
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch

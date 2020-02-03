@@ -1,0 +1,18 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+#  datasource:
+#    platform: postgres
+#    url: jdbc:postgresql://localhost:6001/postgres
+#    username: postgres
+#    password: postgres
+  datasource:
+      platform: postgres
+      url: jdbc:tc:postgresql:11.3://databasename?TC_DAEMON=true
+      username: postgres
+      password: postgres
+      driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-test-master.yaml
+  kafka:
+    bootstrap-servers: ${spring.embedded.kafka.brokers}

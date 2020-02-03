@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - logicalFilePath: src/main/resources/db/changelog/1.0.0/191119_1500_add_category_table.yaml
+  - changeSet:
+      id: 191119_1540_add_category_table
+      author: alexey.timofeev.ru@gmail.com
+      changes:
+        - createTable:
+            tableName: category
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_id
+                  type: bigint
+        - addForeignKeyConstraint:
+            baseColumnNames: parent_id
+            baseTableName: category
+            constraintName: fk_category_category_parent_id
+            deferrable: true
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: category

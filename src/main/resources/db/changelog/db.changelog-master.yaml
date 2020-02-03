@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: 1.0.0/191119_1500_add_category_table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 1.0.0/191119_1530_add_product_table.yaml
+      relativeToChangelogFile: true

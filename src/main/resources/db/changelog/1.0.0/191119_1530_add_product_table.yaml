@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - logicalFilePath: src/main/resources/db/changelog/1.0.0/191119_1530_add_product_table.yaml
+  - changeSet:
+      id: 191119_1500_add_product_table
+      author: alexey.timofeev.ru@gmail.com
+      changes:
+        - createTable:
+            tableName: product
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: decimal
+        - addForeignKeyConstraint:
+            baseColumnNames: category_id
+            baseTableName: product
+            constraintName: fk_product_category_id
+            deferrable: true
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: category

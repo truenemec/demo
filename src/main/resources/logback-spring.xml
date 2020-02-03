@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <springProperty name="app.name" source="logging.service"/>
+    <springProperty name="logstash.hostsAndPorts" source="logging.hostsAndPorts" defaultValue="localhost:5000"/>
+
+
+    <springProperty name="app.name" source="logging.service"/>
+    <springProperty name="app.index" source="logging.index"/>
+    <springProperty name="app.version" source="logging.version"/>
+
+
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>${logstash.hostsAndPorts}</destination>
+
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+                <mdc/>
+                <context/>
+                <version/>
+                <logLevel/>
+                <loggerName/>
+                <pattern>
+                    <pattern>
+                        {
+                        "app.name": "${app.name}",
+                        "app.index": "${app.index}",
+                        "app.version": "${app.version}"
+                        }
+                    </pattern>
+                </pattern>
+
+                <threadName/>
+                <message/>
+                <logstashMarkers/>
+                <arguments/>
+                <stackTrace/>
+            </providers>
+        </encoder>
+    </appender>
+
+
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="logstash"/>
+    </root>
+
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="com.demo" level="INFO"/>
+
+</configuration>
